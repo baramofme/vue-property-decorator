@@ -1,23 +1,23 @@
-# Vue Property Decorator
+# 뷰 속성 데코레이터
 
 [![npm](https://img.shields.io/npm/v/vue-property-decorator.svg)](https://www.npmjs.com/package/vue-property-decorator)
 [![Build Status](https://travis-ci.org/kaorun343/vue-property-decorator.svg?branch=master)](https://travis-ci.org/kaorun343/vue-property-decorator)
 
-This library fully depends on [vue-class-component](https://github.com/vuejs/vue-class-component), so please read its README before using this library.
+이 라이브러리는 [뷰-클래그-컴포넌트](https://github.com/vuejs/vue-class-component)에 전적으로 의존하고 있습니다, 그러니 이 라이브러리를 사용하기 전에 그것의 README 를 읽어주세요.
 
-## License
+## 라이센스
 
 MIT License
 
-## Install
+## 설치
 
 ```bash
 npm i -S vue-property-decorator
 ```
 
-## Usage
+## 사용
 
-There are 7 decorators and 1 function (Mixin):
+7 데코레이터와 1 함수(Mixin)가 있습니다:
 
 * `@Emit`
 * `@Inject`
@@ -25,10 +25,10 @@ There are 7 decorators and 1 function (Mixin):
 * `@Prop`
 * `@Provide`
 * `@Watch`
-* `@Component` (**from** [vue-class-component](https://github.com/vuejs/vue-class-component))
-* `Mixins` (the helper function named `mixins` defined at [vue-class-component](https://github.com/vuejs/vue-class-component))
+* `@Component` ([뷰-클래스-컴포넌트](https://github.com/vuejs/vue-class-component)로 **부터** )
+* `Mixins` ([뷰-클래스-컴포넌트](https://github.com/vuejs/vue-class-component)에 정의된 기명 `mixins` 헬퍼 함수)
 
-### `@Prop(options: (PropOptions | Constructor[] | Constructor) = {})` decorator
+### `@Prop(options: (PropOptions | Constructor[] | Constructor) = {})` 데코레이터
 
 ```ts
 import { Vue, Component, Prop } from 'vue-property-decorator'
@@ -41,7 +41,7 @@ export default class YourComponent extends Vue {
 }
 ```
 
-is equivalent to
+는 다음과 같다
 
 ```js
 export default {
@@ -59,12 +59,12 @@ export default {
 }
 ```
 
-**Note that:**
+**알아두세요:**
 
-* [reflect-metadata](https://github.com/rbuckton/reflect-metadata) isn't used in this library and setting `emitDecoratorMetadata` to `true` means nothing.
-* Each prop's default value need to be defined as same as the example code shown in above.
+* [reflect-metadata](https://github.com/rbuckton/reflect-metadata) 는 이 라이브러리에서 사용되지 않으며 `emitDecoratorMetadata` 설정을 `true` 로 해도 아무 의미 없다.
+* 각 프롭의 기본 값은 위의 예시와 같이 정의될 필요가 있다.
 
-### `@Model(event?: string, options: (PropOptions | Constructor[] | Constructor) = {})` decorator
+### `@Model(event?: string, options: (PropOptions | Constructor[] | Constructor) = {})` 데코레이터
 
 ```ts
 import { Vue, Component, Model } from 'vue-property-decorator'
@@ -75,7 +75,7 @@ export default class YourComponent extends Vue {
 }
 ```
 
-is equivalent to
+는 다음과 같다
 
 ```js
 export default {
@@ -91,7 +91,7 @@ export default {
 }
 ```
 
-### `@Watch(path: string, options: WatchOptions = {})` decorator
+### `@Watch(path: string, options: WatchOptions = {})` 데코레이터
 
 ```ts
 import { Vue, Component, Watch } from 'vue-property-decorator'
@@ -106,7 +106,7 @@ export default class YourComponent extends Vue {
 }
 ```
 
-is equivalent to
+는 다음과 같다
 
 ```js
 export default {
@@ -129,11 +129,13 @@ export default {
 }
 ```
 
-### `@Emit(event?: string)` decorator
+### `@Emit(event?: string)` 데코레이터
 
-The functions decorated by `@Emit` `$emit` their return value followed by their original arguments. If the return value is a promise, it is resolved before being emitted.
+`@Emit` `$emit` 로 데코레이트된 함수는 그들의 반환 값은 그들의 원본 인수에 따라간다. 반환값이 프로미스라면, emitted 전에 resolved 된다.
 
 If the name of the event is not supplied via the `event` argument, the function name is used instead. In that case, the camelCase name will be converted to kebab-case.
+
+`event` 인자를 통해 지원되지 않는 이벤트 이름이 제공된다면, 함수 이름이 대신 사용된다. 그 경우에, camelCase 이름이 케밥-케이스 로 변환된다.
 
 ```ts
 import { Vue, Component, Emit } from 'vue-property-decorator'
@@ -168,7 +170,7 @@ export default class YourComponent extends Vue {
 }
 ```
 
-is equivalent to
+는 다음과 같다
 
 ```js
 export default {
@@ -204,7 +206,10 @@ export default {
 }
 ```
 
-### `@Provide(key?: string | symbol)` / `@Inject(options?: { from?: InjectKey, default?: any } | InjectKey)` decorator
+### `@Provide(key?: string | symbol)` / `@Inject(options?: { from?: InjectKey, default?: any } | InjectKey)` 데코레이터
+
+> provide and inject are primarily provided for advanced plugin / component library use cases. It is NOT recommended to use them in generic application code.
+> https://vuejs.org/v2/api/#provide-inject
 
 ```ts
 import { Component, Inject, Provide, Vue } from 'vue-property-decorator'
@@ -217,14 +222,13 @@ export class MyComponent extends Vue {
   @Inject('bar') bar!: string
   @Inject({ from: 'optional', default: 'default' }) optional!: string
   @Inject(symbol) baz!: string
-
-
+  
   @Provide() foo = 'foo'
   @Provide('bar') baz = 'bar'
 }
 ```
 
-is equivalent to
+는 다음과 같다
 
 ```js
 const symbol = Symbol('baz')
@@ -252,6 +256,6 @@ export const MyComponent = Vue.extend({
 })
 ```
 
-## See also
+## 보세요 또
 
 [vuex-class](https://github.com/ktsn/vuex-class/)
